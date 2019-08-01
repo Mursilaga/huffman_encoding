@@ -36,7 +36,17 @@ def find_cipher(freqs):
 
 # takes [ [str, int] ], str (with "0" and "1"); returns: str
 def decode(freqs, bits):
-    return ""
+    decode.cipher = dict((v, k) for k, v in encode.cipher.items())
+    result = ""
+    symbol = ""
+    for c in bits:
+        symbol += c
+        decoded_symbol = decode.cipher.get(symbol, "")
+        if decoded_symbol != "":
+            result += decoded_symbol
+            symbol = ""
+
+    return result
 
 
 str1 = "aaaabcc"
