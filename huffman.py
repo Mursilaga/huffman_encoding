@@ -9,7 +9,10 @@ def encode(freqs, s):
     encode.cipher = {char: '' for char in s}
     sorted_freq = sorted(freqs.items(), key=lambda x: x[1])
     find_cipher(sorted_freq)
-    return ""
+    result = ""
+    for c in s:
+        result += encode.cipher[c]
+    return result
 
 
 def find_cipher(freqs):
@@ -17,9 +20,17 @@ def find_cipher(freqs):
         return
     new_node = freqs.pop(0)
     new_node2 = freqs.pop(0)
-    encode.cipher[new_node[0]] += '0'
-    encode.cipher[new_node2[0]] += '1'
-    new_node3 = [new_node[0] + new_node2[0], new_node[1] + new_node2[1]]
+    for c in new_node[0]:
+        encode.cipher[c] = '1' + encode.cipher[c]
+    for c in new_node2[0]:
+        encode.cipher[c] = '0' + encode.cipher[c]
+
+    insert_node = [new_node[0] + new_node2[0], new_node[1] + new_node2[1]]
+    insert_point = 0
+    for i in range(len(freqs)):
+        if insert_node[1] > freqs[i][1]:
+            insert_point = i
+    freqs.insert(insert_point, insert_node)
     find_cipher(freqs)
 
 
@@ -31,3 +42,5 @@ def decode(freqs, bits):
 str1 = "aaaabcc"
 freq = frequencies(str1)
 encoded = encode(freq, str1)
+decoded = decode(freq, encoded)
+print(decoded)
