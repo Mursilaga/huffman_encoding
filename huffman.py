@@ -1,13 +1,16 @@
 # takes: str; returns: [ (str, int) ] (Strings in return value are single characters)
 def frequencies(s):
-    return {char: s.count(char) for char in s}
-
+    return {char: s.count(char) for char in s}.items()
 
 # takes: [ (str, int) ], str; returns: String (with "0" and "1")
 def encode(freqs, s):
-    # sorted_freq = {c: freqs[c] for c in sorted(freqs, key=freqs.get)}
-    encode.cipher = {char: '' for char in s}
-    sorted_freq = sorted(freqs.items(), key=lambda x: x[1])
+    if len(freqs) <= 1:
+        return
+    if len(s) == 0:
+        return ''
+
+    encode.cipher = {char[0]: '' for char in freqs}
+    sorted_freq = sorted(freqs, key=lambda x: x[1])
     find_cipher(sorted_freq)
     result = ""
     for c in s:
@@ -16,7 +19,7 @@ def encode(freqs, s):
 
 
 def find_cipher(freqs):
-    if len(freqs) == 1:
+    if len(freqs) <= 1:
         return
     new_node = freqs.pop(0)
     new_node2 = freqs.pop(0)
@@ -36,6 +39,10 @@ def find_cipher(freqs):
 
 # takes [ [str, int] ], str (with "0" and "1"); returns: str
 def decode(freqs, bits):
+    if len(freqs) <= 1:
+        return
+    if len(bits) == 0:
+        return ''
     decode.cipher = dict((v, k) for k, v in encode.cipher.items())
     result = ""
     symbol = ""
