@@ -32,7 +32,7 @@ def find_cipher(freqs):
     insert_point = 0
     for i in range(len(freqs)):
         if insert_node[1] > freqs[i][1]:
-            insert_point = i
+            insert_point = i+1
     freqs.insert(insert_point, insert_node)
     find_cipher(freqs)
 
@@ -56,8 +56,9 @@ def decode(freqs, bits):
     return result
 
 
-str1 = "aaaabcc"
-freq = frequencies(str1)
+str1 = "5"
+freq = [('D', 8), ('B', 8), ('T', 8), ('C', 8), ('P', 8), ('m', 8), ('M', 8), ('O', 8), ('l', 8), ('S', 8), ('A', 8), ('L', 8), ('j', 8), ('r', 8), ('x', 8), ('5', 8)]
 encoded = encode(freq, str1)
+print(encoded)
 decoded = decode(freq, encoded)
 print(decoded)
